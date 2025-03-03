@@ -1,36 +1,29 @@
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Solution {
+class Solution {
     public int[] pivotArray(int[] nums, int pivot) {
-        Queue<Integer> left = new LinkedList<>();
-        int countPivots = 0;
-        Queue<Integer> right = new LinkedList<>();
-        for (int i = 0; i < nums.length; i++) {
-            if (nums[i] < pivot) {
-                left.add(nums[i]);
-            } else if (nums[i] == pivot) {
-                countPivots++;
-            } else {
-                right.add(nums[i]);
-            }
+        List<Integer> less = new ArrayList<>();
+        List<Integer> greater = new ArrayList<>();
+        int eq = 0;
+        for(int i = 0; i < nums.length; i++) {
+            if(nums[i] < pivot){
+                less.add(nums[i]);
+            }else if(nums[i] > pivot){
+                greater.add(nums[i]);
+            }else eq++;
         }
-        int i = 0;
-        while (!left.isEmpty()) {
-            nums[i] = left.poll();
-            i++;
+        int k = 0;
+        for(int x : less){
+            nums[k++] = x;
         }
-        while (countPivots != 0) {
-            nums[i] = pivot;
-            countPivots--;
-            i++;
+        while(eq != 0) {
+            eq--;
+            nums[k++] = pivot;
         }
-        while (!right.isEmpty()) {
-            nums[i] = right.poll();
-            i++;
+        for(int x : greater){
+            nums[k++] = x;
         }
-
         return nums;
     }
 }
